@@ -1,7 +1,15 @@
-require("./notion-zh_CN")
-
-const https = require("https");
 const fs = require("fs")
+const https = require("https");
+
+// 调用当前的本地文件，没有则创建
+let scriptFile = `${__dirname}/notion-zh_CN.js`
+try {
+    fs.accessSync(scriptFile, fs.constants.F_OK);
+} catch(err){
+    //创建一个空脚本
+    fs.writeFileSync(scriptFile, "")
+}
+require("./notion-zh_CN")
 
 // 获取github仓库最新release的信息
 function getGithubRepoLatestReleaseInfo(repoName, onSuccess){
@@ -64,7 +72,7 @@ getGithubRepoLatestReleaseInfo(repoName,
                     })
                     // 更新本地文件
                     _res.on("end", ()=>{
-                        fs.writeFileSync(`${__dirname}/notion-zh_CN.js`, rawData)
+                        fs.writeFileSync(scriptFile, rawData)
                         fs.writeFileSync(versionFile, latestNode)
                         alert(`中文本地化文件已经更新，请重启程序应用！`)
                     })
@@ -73,5 +81,3 @@ getGithubRepoLatestReleaseInfo(repoName,
         })
     }
 )
-
-

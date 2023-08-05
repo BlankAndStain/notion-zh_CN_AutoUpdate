@@ -74,8 +74,10 @@ getGithubRepoLatestReleaseInfo(repoName,
                     _res.on("end", ()=>{
                         fs.writeFileSync(scriptFile, rawData)
                         fs.writeFileSync(versionFile, latestNode)
-                        window.location.reload()
-//                        alert(`中文本地化文件已经更新，请重启程序应用！`)
+                        let loadNewFile = confirm(`中文本地化文件已经更新!加载新的本地化文件?`)
+                        if (loadNewFile){
+                            window.location.reload()
+                        }
                     })
                 })
             })

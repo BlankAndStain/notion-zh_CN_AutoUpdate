@@ -15,7 +15,7 @@ function getGithubRepoLatestReleaseInfo(repoName, onSuccess){
     https.get(latestVersionURL, options, (res) => {
         res.on("data", (chunk) => rawData+=chunk)
         res.on("end", () => {
-            onSuccess(rawData)
+            onSuccess(JSON.parse(rawData))
         })
     })
 }
@@ -23,8 +23,7 @@ function getGithubRepoLatestReleaseInfo(repoName, onSuccess){
 // 自动下载最新的notion-zh_CN.js
 const repoName = "Reamd7/notion-zh_CN"
 getGithubRepoLatestReleaseInfo(repoName,
-    function (data){
-        var responseJson = JSON.parse(data)
+    function (responseJson){
         var assets = responseJson["assets"]
 
         const targetAssetName = "notion-zh_CN.js"
@@ -63,6 +62,7 @@ getGithubRepoLatestReleaseInfo(repoName,
                     _res.on("data", (d) => {
                         rawData += d
                     })
+                    // 更新本地文件
                     _res.on("end", ()=>{
                         fs.writeFileSync(`${__dirname}/notion-zh_CN.js`, rawData)
                         fs.writeFileSync(versionFile, latestNode)

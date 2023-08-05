@@ -1,4 +1,4 @@
-# notionCNL10nUpdate
+# notionCNL10nAutomaticUpdate
 PC端的L10n自动更新脚本
 
 使用方法：
